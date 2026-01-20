@@ -22,7 +22,7 @@ export default function TransactionForm() {
     setAmount('')
     setDescription('')
     setCategory('')
-    setCreatedAt(new Date().toLocaleDateString('en-CA'))
+
     if (type === "expense") {
       alert(`Added ${type}: ${amount} on ${category}`)
     }

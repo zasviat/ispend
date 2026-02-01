@@ -80,7 +80,7 @@ async def test_delete_transaction(client_factory, transactions):
         delete_response = await client.delete(f"/transactions/{transaction_id}/")
 
     async with client_factory() as client:
-        response = await client.get(f"/api/v1/transactions/{transaction_id}/")
+        response = await client.get(f"/transactions/{transaction_id}/")
 
     assert delete_response.status_code == 204
     assert response.status_code == 404

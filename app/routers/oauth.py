@@ -56,7 +56,7 @@ async def auth_callback(request: Request):
 
     app_token = create_app_jwt(email)
 
-    frontend = os.getenv("FRONTEND_URL")
+    frontend = os.getenv("FRONTEND_URL", "")
     return RedirectResponse(url=f"{frontend}/auth?token={app_token}")
 
 

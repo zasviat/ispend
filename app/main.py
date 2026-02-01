@@ -3,6 +3,7 @@ import os
 
 from dotenv import load_dotenv
 from fastapi import FastAPI
+from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
 from starlette.middleware.sessions import SessionMiddleware
 
@@ -10,7 +11,7 @@ from app.routers import oauth
 
 from .create_db import ensure_database
 from .db import init_db
-from .routers import transactions, plans, months, categories, health
+from .routers import transactions, plans, months, categories, health, index
 
 load_dotenv()
 
@@ -40,6 +41,9 @@ app.add_middleware(
     secret_key=os.getenv("SESSION_SECRET_KEY"),
     session_cookie="my_session",
 )
+if os.path.exists("static/dist/assets"):
+    app.mount("/assets", StaticFiles(directory="static/dist/assets"), name="static")
+
 
 routers = [
     dict(router=transactions.router, prefix="/api/v1/transactions", tags=["transactions"]),
@@ -48,6 +52,7 @@ routers = [
     dict(router=categories.router, prefix="/api/v1/categories", tags=["categories"]),
     dict(router=oauth.router, prefix="/api/v1/oauth", tags=["oauth"]),
     dict(router=health.router, tags=["health"]),
+    dict(router=index.router, tags=["index"]),  # should me mounted last
 ]
 
 for router_params in routers:

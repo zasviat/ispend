@@ -1,6 +1,7 @@
 export default function Login() {
+    const backendHost = import.meta.env.VITE_BACKEND_URL || ""
     const login = () => {
-      window.location.href = `${import.meta.env.VITE_BACKEND_URL}/api/v1/oauth/login/google`;
+      window.location.href = `${backendHost}/api/v1/oauth/login/google`;
     };
 
     function AuthButton({icon, caption, onClick}) {

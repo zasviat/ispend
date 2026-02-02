@@ -7,10 +7,10 @@ from dotenv import load_dotenv
 from .db import create_db_with_tables
 
 load_dotenv()
-PG_USER = os.getenv("DB_USERNAME")
-PG_PASS = os.getenv("DB_PASSWORD")
-PG_HOST = os.getenv("DB_HOST")
-DB_NAME = os.getenv("DB_NAME")
+PG_USER = os.getenv("POSTGRES_USER")
+PG_PASS = os.getenv("POSTGRES_PASSWORD")
+PG_HOST = os.getenv("POSTGRES_HOST")
+DB_NAME = os.getenv("POSTGRES_DB")
 
 
 async def ensure_database(force_drop=True):

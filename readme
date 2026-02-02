@@ -10,5 +10,14 @@ Show all dbs
 Show tables in current db
 \d
 
+Create network
+docker create network ispend
+
 Start postgresql container with volume
-docker run --name some-postgres -e POSTGRES_PASSWORD=mysecretpassword -d -p 5432:5432 -v postgresql_data:/var/lib/postgresql postgres
+docker run --network=ispend --name postgres --env-file .env.docker -d -p 5432:5432 -v postgresql_data:/var/lib/postgresql postgres
+
+Start app container
+docker run --network=ispend -p 8000:8000 --env-file .env.docker zasviat/ispend:latest
+
+Spin up application via docker compose (.env.docker should be available)
+docker compose up

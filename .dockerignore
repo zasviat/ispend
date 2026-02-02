@@ -1,2 +1,11 @@
 *.pyc
 __pycache__/
+__pycache__/
+.DS_Store
+.idea/
+.venv/
+.env
+.env.prod
+.env.docker
+k8s_manifests/secret.yaml
+static/dist/

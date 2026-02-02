@@ -6,11 +6,11 @@ from dotenv import load_dotenv
 load_dotenv()
 
 DATABASE_URL = "postgresql+asyncpg://{username}:{password}@{host}:{port}/{database}".format(
-    host=os.getenv("DB_HOST"),
-    port=os.getenv("DB_PORT", 5432),
-    username=os.getenv("DB_USERNAME"),
-    password=os.getenv("DB_PASSWORD"),
-    database=os.getenv("DB_NAME"),
+    host=os.getenv("POSTGRES_HOST"),
+    port=os.getenv("POSTGRES_PORT", 5432),
+    username=os.getenv("POSTGRES_USER"),
+    password=os.getenv("POSTGRES_PASSWORD"),
+    database=os.getenv("POSTGRES_DB"),
 )
 
 Base = declarative_base()

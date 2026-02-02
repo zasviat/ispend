@@ -1,3 +1,6 @@
+Docker Registry: https://hub.docker.com/repository/docker/zasviat/ispend/general
+iSpend Production: https://i-spend.vercel.app
+
 Connect to posgresql
 psql -U postgres
 

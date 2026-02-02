@@ -31,7 +31,7 @@ jobs:
           git config --global user.email "action@github.com"
           git config --global user.name "GitHub Action"
             git add version.py
-            git commit -m "Update version.py [skip ci]"
+            git commit -m "Update iSpend version to 'v0.$(git rev-list --count HEAD)' [skip ci]"
             git push
           else
             echo "version.py has not changed."

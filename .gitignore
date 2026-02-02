@@ -5,5 +5,4 @@ __pycache__/
 .env
 .env.prod
 .env.docker
-k8s_manifests/secret.yaml
 dist/

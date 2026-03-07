@@ -104,10 +104,10 @@ export default function MonthView() {
       </div>
     )
   }
-  function MonthViewTable({title, data, total, type}) {
+  function MonthViewTable({id, data, total, type}) {
     return (
       <div className="flex flex-col justify-center items-center gap-3">
-      <h2 className="text-xl font-medium">{title}</h2>
+      <h2 className="text-xl font-medium">{id.toUpperCase()}</h2>
       <table className="w-full text-left">
         <thead className="bg-red-500">
           <tr className="text-center">
@@ -134,18 +134,28 @@ export default function MonthView() {
               </tr>
             ) : (
               <>
-              <tr key={`total_actual_${title}`} className="text-center bg-white text-red-500">
+              <tr key={`total_actual_${id.toUpperCase()}`} className="text-center bg-white text-red-500">
                 <td className="p-1 font-bold border">Total</td>
                 <td className="p-1 font-bold border">{total.actual.toFixed(2)}</td>
                 <td className="p-1 font-bold border">{total.planned.toFixed(2)}</td>
-                <td className={`p-1 font-bold border ${total.planned.toFixed(2) - total.actual.toFixed(2) > 0 ? 'text-green-500' : 'text-red-500'}`}>{(total.planned - total.actual).toFixed(2)}</td>
+
+                {id === "expenses" ? (
+                  <td className={`p-1 font-bold border ${total.planned.toFixed(2) - total.actual.toFixed(2) > 0 ? 'text-green-500' : 'text-red-500'}`}>{(total.planned - total.actual).toFixed(2)}</td>
+                ) : (
+                  <td className={`p-1 font-bold border ${total.actual.toFixed(2) - total.planned.toFixed(2) > 0 ? 'text-green-500' : 'text-red-500'}`}>{(total.actual - total.planned).toFixed(2)}</td>
+                )}
+
               </tr>
               {data.map((item, idx) => (
                 <tr key={idx} className="text-center">
                   <td className="p-1 font-normal border">{item.category}</td>
                   <td className="p-1 font-normal border">{item.actual?.toFixed(2)}</td>
                   <td className="p-1 font-normal border" onDoubleClick={() => handleDoubleClick(item)}> {item.planned?.toFixed(2)} </td>
-                  <td className={`p-1 font-normal border ${item.planned?.toFixed(2) - item.actual?.toFixed(2) > 0 ? 'text-green-500' : 'text-red-500'}`}> {Number.isNaN(item.planned?.toFixed(2) - item.actual?.toFixed(2)) ? "" : (item.planned?.toFixed(2) - item.actual?.toFixed(2)).toFixed(2)} </td>
+                  {id === "expenses" ? (
+                    <td className={`p-1 font-normal border ${item.planned?.toFixed(2) - item.actual?.toFixed(2) > 0 ? 'text-green-500' : 'text-red-500'}`}> {Number.isNaN(item.planned?.toFixed(2) - item.actual?.toFixed(2)) ? "" : (item.planned?.toFixed(2) - item.actual?.toFixed(2)).toFixed(2)} </td>
+                ) : (
+                  <td className={`p-1 font-normal border ${item.actual?.toFixed(2) - item.planned?.toFixed(2) > 0 ? 'text-green-500' : 'text-red-500'}`}> {Number.isNaN(item.actual?.toFixed(2) - item.planned?.toFixed(2)) ? "" : (item.actual?.toFixed(2) - item.planned?.toFixed(2)).toFixed(2)} </td>
+                )}
                 </tr>
               ))}
             </>
@@ -158,8 +168,8 @@ export default function MonthView() {
   return (
     <div className="w-full flex flex-col items-around border-yellow-400 gap-5">
       <MonthViewHeader />
-      <MonthViewTable title="Expenses" data={data.expenses} total={data.total.expenses} type="expense"/>
-      <MonthViewTable title="Incomes" data={data.incomes} total={data.total.incomes} type="income"/>
+      <MonthViewTable id="expenses" data={data.expenses} total={data.total.expenses} type="expense"/>
+      <MonthViewTable id="incomes" data={data.incomes} total={data.total.incomes} type="income"/>
       </div>
   )
 }

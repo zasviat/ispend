@@ -24,3 +24,6 @@ docker run --network=ispend -p 8000:8000 --env-file .env.docker zasviat/ispend:l
 
 Spin up application via docker compose (.env.docker should be available)
 docker compose up
+
+Command to dump production database
+pg_dump -U '<username>' -h '<host>' -d '<db_name>' -f DD_MM_YYYY.sql

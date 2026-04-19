@@ -2,7 +2,7 @@ import datetime
 from typing import List, Optional
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.ext.asyncio.session import AsyncSession
-from sqlalchemy import select
+from sqlalchemy import select, func
 
 from app.dependencies import get_current_user
 
@@ -98,3 +98,19 @@ async def delete_transaction(
 
     await session.delete(transaction)
     await session.commit()
+
+
+@router.get("/descriptions", response_model=List[str])
+async def get_top_descriptions(
+        session: AsyncSession = Depends(get_session),
+        limit: int = 10,
+):
+    query = (
+        select(Transaction.description)
+        .group_by(Transaction.description)
+        .order_by(func.count().desc())
+        .limit(limit)
+    )
+
+    result = await session.execute(query)
+    return result.scalars().all()

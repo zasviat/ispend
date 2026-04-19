@@ -104,3 +104,29 @@ async def test_update_transaction(client_factory):
 
     for k, v in update_data.items():
         assert data[k] == v
+
+
+@pytest.mark.parametrize(
+    argnames="limit,expected_count",
+    argvalues=[
+        (None, 6),
+        (3, 3),
+    ],
+    ids=[
+        "Default limit of 10",
+        "Custom limit of 3",
+    ]
+)
+@pytest.mark.asyncio
+async def test_get_top_descriptions(client_factory, transactions, limit, expected_count):
+    params = {}
+    if limit is not None:
+        params["limit"] = limit
+
+    async with client_factory() as client:
+        response = await client.get("/transactions/descriptions", params=params)
+
+    assert response.status_code == 200
+    descriptions = response.json()
+    assert len(descriptions) == expected_count
+    assert all(isinstance(d, str) for d in descriptions)

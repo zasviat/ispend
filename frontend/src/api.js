@@ -31,6 +31,7 @@ export const getMonthSummary = (month) => api.get(`/api/v1/months/${month}`).the
 
 export const getMonthTransactions = (month) => api.get(`/api/v1/months/${month}`).then(r => r.data)
 export const getCategories = (transaction_type) => api.get(`/api/v1/categories`, { params: { transaction_type } }).then(r => r.data)
+export const getTopDescriptions = (limit) => api.get(`/api/v1/transactions/descriptions`, { params: { limit } }).then(r => r.data)
 export const getAppVersion = () => api.get(`/version`).then(r => r.data)
 export const getMe = () => api.get(`/api/v1/oauth/me`).then(r => r.data).catch(e => {
   if (e.response?.status === 401) return null

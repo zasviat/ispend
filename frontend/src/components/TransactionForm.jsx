@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { createTransaction, getCategories } from "./../api"
+import { createTransaction, getCategories, getTopDescriptions } from "./../api"
 import EditableSelect from "./EditableSelect"
 
 export default function TransactionForm() {
@@ -9,9 +9,14 @@ export default function TransactionForm() {
   const [category, setCategory] = useState('')
   const [createdAt, setCreatedAt] = useState(new Date().toLocaleDateString('en-CA'))
   const [categories, setCategories] = useState([])
+  const [topDescriptions, setTopDescriptions] = useState([])
 
   async function getCategoriesAsync() {
     setCategories(await getCategories(type))
+  }
+
+  async function getTopDescriptionsAsync() {
+    setTopDescriptions(await getTopDescriptions(10))
   }
 
   const submit = async (e) => {
@@ -33,12 +38,14 @@ export default function TransactionForm() {
       // refetch categories if new category created
       getCategoriesAsync()
     }
+    getTopDescriptionsAsync()
   }
 
   const expenseTransaction = (type === 'expense');
   
   useEffect(() => {
     getCategoriesAsync()
+    getTopDescriptionsAsync()
   }, [type])
 
   function Button({icon, caption}) {
@@ -64,7 +71,7 @@ export default function TransactionForm() {
 
         <div className='text-black border-purple-500 flex flex-col gap-3 w-full'>
           <input type="number" className="rounded-3xl" placeholder="Amount" value={amount} onChange={e => setAmount(e.target.value)} />
-          <input className="rounded-3xl" placeholder="Description" value={description} onChange={e => setDescription(e.target.value)} />
+          <EditableSelect className="rounded-3xl" value={description} options={topDescriptions} onCreate={setDescription} onChange={setDescription} placeholder={"Description"} />
           <EditableSelect className="rounded-3xl" value={category} options={categories} onCreate={setCategory} onChange={setCategory} placeholder={"Category"} />
           <input type="date" className="rounded-3xl" value={createdAt} onChange={e => setCreatedAt(e.target.value)} />
         </div>
